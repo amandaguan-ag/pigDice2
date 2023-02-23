@@ -3,7 +3,7 @@ var player2 = new Player("Player 2");
 
 var game = new Game();
 
-function Game(){
+function Game() {
   this.gameType = 1;
   this.players = 1;
   this.currentRoll = [];
@@ -11,63 +11,65 @@ function Game(){
   this.turnTotal = 0;
 }
 
-function Player(name){
+function Player(name) {
   this.bank = 0;
   this.name = name;
 }
 
-Player.prototype.addToBank = function() {
+Player.prototype.addToBank = function () {
   this.bank += game.turnTotal;
   game.turnTotal = 0;
-}
+};
 
-Player.prototype.addName = function(name) {
+Player.prototype.addName = function (name) {
   this.name = name;
-}
-
+};
+戳动d:
 Game.prototype.setGameType = function (type, players) {
   this.gameType = type;
   this.players = players;
-}
+};
 
-Game.prototype.rollDice = function() {
+Game.prototype.rollDice = function () {
   this.currentRoll = [];
-  for(var i=0; i<this.gameType; i++) {
-    this.currentRoll.push(Math.floor((Math.random()*6)+1));
+  for (var i = 0; i < this.gameType; i++) {
+    this.currentRoll.push(Math.floor(Math.random() * 6 + 1));
   }
 
   if (this.currentRoll[1]) {
-    if (this.currentRoll[0] === 1 && this.currentRoll[1] === 1){
-      this.currentPlayer.bank=0;
+    if (this.currentRoll[0] === 1 && this.currentRoll[1] === 1) {
+      this.currentPlayer.bank = 0;
       this.turnTotal = 0;
       this.switchPlayer();
       window.setTimeout(activePlayerUI, 1000);
       updateBank();
-    } else if (this.currentRoll[0] === 1 || this.currentRoll[1] === 1){
+    } else if (this.currentRoll[0] === 1 || this.currentRoll[1] === 1) {
       this.turnTotal = 0;
       this.switchPlayer();
       window.setTimeout(activePlayerUI, 1000);
-    } else  {
-      this.turnTotal += (this.currentRoll[0] + this.currentRoll[1]);
-      if (this.currentPlayer.bank + this.turnTotal >= 100) {
+    } else {
+      this.turnTotal += this.currentRoll[0] + this.currentRoll[1];
+      if (this.currentPlayer.bank + this.turnTotal >= 10) {
         win();
-      } return 1;
+      }
+      return 1;
     }
   } else {
     if (this.currentRoll[0] === 1) {
-    this.turnTotal = 0;
-    this.switchPlayer();
-    window.setTimeout(activePlayerUI, 1000);
+      this.turnTotal = 0;
+      this.switchPlayer();
+      window.setTimeout(activePlayerUI, 1000);
     } else {
       this.turnTotal += this.currentRoll[0];
-        if (this.currentPlayer.bank + this.turnTotal >= 100) {
-          win();
-        } return 1;
+      if (this.currentPlayer.bank + this.turnTotal >= 10) {
+        win();
       }
+      return 1;
     }
-} // rollDice
+  }
+}; // rollDice
 
-Game.prototype.switchPlayer = function() {
+Game.prototype.switchPlayer = function () {
   if (this.currentPlayer === player1) {
     this.currentPlayer = player2;
   } else {
@@ -81,210 +83,210 @@ Game.prototype.switchPlayer = function() {
     window.setTimeout(superComputer, 2000);
     disablePlayButtons();
   }
-}
+};
 
-var computer = function() {
+var computer = function () {
   var firstRoll = game.rollDice();
   displayRoll(game.currentRoll);
   updateFields();
 
-  if (firstRoll === 1){
+  if (firstRoll === 1) {
     firstRoll = game.rollDice();
     window.setTimeout(displayRoll, 1000, game.currentRoll);
     window.setTimeout(updateFields, 1000);
   }
-  if (firstRoll === 1){
-
+  if (firstRoll === 1) {
     window.setTimeout(game.currentPlayer.addToBank(game.turnTotal), 1000);
     window.setTimeout(game.switchPlayer(), 1000);
     window.setTimeout(activePlayerUI, 3000);
   }
   window.setTimeout(updateBank, 3000);
   window.setTimeout(enablePlayButtons, 3000);
-}
+};
 
-var slowRoll = function(firstRoll) {
+var slowRoll = function (firstRoll) {
   debugger;
+};
 
-}
-
-var superComputer = function() {
+var superComputer = function () {
   var firstRoll = 1;
-    for (var i=0; player2.bank + game.turnTotal < 100; i++) {
-      // debugger;
-      if (firstRoll === 1) {
-        if (player1.bank >= 71 || player2.bank >= 71) {
-          firstRoll = game.rollDice();
-          displayRoll(game.currentRoll);
-          updateFields();
-          if (game.turnTotal + player2.bank >= 100) {
-            game.switchPlayer();
-            break;
-          }
-        } else if (player1.bank >= 61 || player2.bank >= 61) {
-          firstRoll = game.rollDice();
-          displayRoll(game.currentRoll);
-          updateFields();
-          if (game.turnTotal >= 26) {
-            game.currentPlayer.addToBank(game.turnTotal);
-            game.switchPlayer();
-            activePlayerUI();
-            break;
-          }
-        } else if (player1.bank >= 51 || player2.bank >= 51) {
-            firstRoll = game.rollDice();
-            displayRoll(game.currentRoll);
-            updateFields();
-            if (game.turnTotal >= 23) {
-              game.currentPlayer.addToBank(game.turnTotal);
-              game.switchPlayer();
-              activePlayerUI();
-              break;
-            }
-        } else {
-          firstRoll = game.rollDice();
-          displayRoll(game.currentRoll);
-          updateFields();
-          if (game.turnTotal >= 20) {
-            game.currentPlayer.addToBank(game.turnTotal);
-            game.switchPlayer();
-            activePlayerUI();
-            break;
-          }
+  for (var i = 0; player2.bank + game.turnTotal < 10; i++) {
+    // debugger;
+    if (firstRoll === 1) {
+      if (player1.bank >= 71 || player2.bank >= 71) {
+        firstRoll = game.rollDice();
+        displayRoll(game.currentRoll);
+        updateFields();
+        if (game.turnTotal + player2.bank >= 10) {
+          game.switchPlayer();
+          break;
+        }
+      } else if (player1.bank >= 61 || player2.bank >= 61) {
+        firstRoll = game.rollDice();
+        displayRoll(game.currentRoll);
+        updateFields();
+        if (game.turnTotal >= 26) {
+          game.currentPlayer.addToBank(game.turnTotal);
+          game.switchPlayer();
+          activePlayerUI();
+          break;
+        }
+      } else if (player1.bank >= 51 || player2.bank >= 51) {
+        firstRoll = game.rollDice();
+        displayRoll(game.currentRoll);
+        updateFields();
+        if (game.turnTotal >= 23) {
+          game.currentPlayer.addToBank(game.turnTotal);
+          game.switchPlayer();
+          activePlayerUI();
+          break;
         }
       } else {
-        break;
+        firstRoll = game.rollDice();
+        displayRoll(game.currentRoll);
+        updateFields();
+        if (game.turnTotal >= 20) {
+          game.currentPlayer.addToBank(game.turnTotal);
+          game.switchPlayer();
+          activePlayerUI();
+          break;
+        }
       }
+    } else {
+      break;
     }
+  }
   updateBank();
   enablePlayButtons();
-}
+};
 
 /// UI
-
-var activePlayerUI = function() {
+const activePlayerUI = function () {
   if (game.currentPlayer.name === player1.name) {
-    $("#player1Working").addClass("currentPlayer");
-    $("#player2Working").removeClass("currentPlayer");
+    document.getElementById("player1Working").classList.add("currentPlayer");
+    document.getElementById("player2Working").classList.remove("currentPlayer");
   } else {
-    $("#player2Working").addClass("currentPlayer");
-    $("#player1Working").removeClass("currentPlayer");
+    document.getElementById("player2Working").classList.add("currentPlayer");
+    document.getElementById("player1Working").classList.remove("currentPlayer");
   }
-  $("#currentPlayer").text(game.currentPlayer.name);
-}
+  document.getElementById("currentPlayer").textContent = game.currentPlayer.name;
+};
 
-var updateBank = function() {
-  $("#p1BankTotal").text(player1.bank);
-  $("#p2BankTotal").text(player2.bank);
-}
+const updateBank = function () {
+  document.getElementById("p1BankTotal").textContent = player1.bank;
+  document.getElementById("p2BankTotal").textContent = player2.bank;
+};
 
-var displayRoll = function() {
-  for (var i=0; i<game.gameType; i++) {
-    var output1 = "&#x268" + (game.currentRoll[i]-1) + ";";
-    $(".displayDice"+(i+1)).html(output1);
+const displayRoll = function () {
+  for (let i = 0; i < game.gameType; i++) {
+    const output1 = "&#x268" + (game.currentRoll[i] - 1) + ";";
+    document.querySelector(".displayDice" + (i + 1)).innerHTML = output1;
   }
-}
+};
 
-var updateFields = function() {
-  $("#p1BankTotal").text(player1.bank);
-  $("#p2BankTotal").text(player2.bank);
-  $("#turnTotal").text(game.turnTotal);
-  $("#currentPlayer").text(game.currentPlayer.name);
-}
+const updateFields = function () {
+  document.getElementById("p1BankTotal").textContent = player1.bank;
+  document.getElementById("p2BankTotal").textContent = player2.bank;
+  document.getElementById("turnTotal").textContent = game.turnTotal;
+  document.getElementById("currentPlayer").textContent = game.currentPlayer.name;
+};
 
-var clearFields = function() {
-  $("#rollOutput").text("");
-  $("#turnTotal").text("");
-  $("#currentPlayer").text("");
-}
+const clearFields = function () {
+  document.getElementById("rollOutput").textContent = "";
+  document.getElementById("turnTotal").textContent = "";
+  document.getElementById("currentPlayer").textContent = "";
+};
 
-var win = function() {
-  $("#winner").show();
-  $("#winner").text(game.currentPlayer.name + " Wins! Bank: " + game.currentPlayer.bank + " Current turn:" + game.turnTotal);
-  $("#gameStart").show();
-  $("#rollButton").hide();
-  $("#bankButton").hide();
+const win = function () {
+  document.getElementById("winner").style.display = "block";
+  document.getElementById("winner").textContent =
+    game.currentPlayer.name +
+    " Wins! Bank: " +
+    game.currentPlayer.bank +
+    " Current turn:" +
+    game.turnTotal;
+  document.getElementById("gameStart").style.display = "block";
+  document.getElementById("rollButton").style.display = "none";
+  document.getElementById("bankButton").style.display = "none";
   clearFields();
-}
+};
 
-var disablePlayButtons = function() {
-  $("#rollButton").hide();
-  $("#bankButton").hide();
-}
+const disablePlayButtons = function () {
+  document.getElementById("rollButton").style.display = "none";
+  document.getElementById("bankButton").style.display = "none";
+};
 
-var enablePlayButtons = function() {
-  $("#rollButton").show();
-  $("#bankButton").show();
-}
+const enablePlayButtons = function () {
+  document.getElementById("rollButton").style.display = "block";
+  document.getElementById("bankButton").style.display = "block";
+};
 
-$(document).ready(function(){
 
-  $("#gameType").change(function() {
-    var diceNumber = $("#gameType").val();
+window.addEventListener("load", function () {
+  document.getElementById("gameType").addEventListener("change", function () {
+    var diceNumber = document.getElementById("gameType").value;
     if (diceNumber === "1") {
-      $("#twoDice").hide();
-      $("#oneDie").show();
+      document.getElementById("twoDice").style.display = "none";
+      document.getElementById("oneDie").style.display = "block";
     } else {
-      $("#twoDice").show();
-      $("#oneDie").hide();
+      document.getElementById("twoDice").style.display = "block";
+      document.getElementById("oneDie").style.display = "none";
     }
-
   });
 
-  $("#startGame").click(function() {
+  document.getElementById("startGame").addEventListener("click", function () {
     game = new Game();
     player1.bank = 0;
     player2.bank = 0;
     console.log(game);
     updateBank();
-    $("#gameStart").hide();
-    $(".nameEntry1").show();
-    $("#winner").hide();
-    $("#p1NameOutput").text("Player 1");
-    $("#p2NameOutput").text("Player 2");
-    var type = $("#gameType").val();
-    var players = $("#playerCount").val();
+    document.getElementById("gameStart").style.display = "none";
+    document.querySelector(".nameEntry1").style.display = "block";
+    document.getElementById("winner").style.display = "none";
+    document.getElementById("p1NameOutput").textContent = "Player 1";
+    document.getElementById("p2NameOutput").textContent = "Player 2";
+    var type = document.getElementById("gameType").value;
+    var players = document.getElementById("playerCount").value;
     game.setGameType(type, players);
     activePlayerUI();
   });
 
-  $("#rollButton").click(function() {
+  document.getElementById("rollButton").addEventListener("click", function () {
     game.rollDice();
     displayRoll(game.currentRoll);
     updateFields();
   });
 
-  $("#bankButton").click(function() {
+  document.getElementById("bankButton").addEventListener("click", function () {
     console.log(game.currentPlayer);
     game.currentPlayer.addToBank();
     updateBank();
     game.switchPlayer();
     activePlayerUI();
-    $("#rollOutput").text("");
-    $("#turnTotal").text("");
-    $("#currentPlayer").text(game.currentPlayer.name);
+    document.getElementById("rollOutput").textContent = "";
+    document.getElementById("turnTotal").textContent = "";
+    document.getElementById("currentPlayer").textContent = game.currentPlayer.name;
   });
 
-  $("#p1NameSubmit").click(function(){
-    var name = $("#p1Name").val();
+  document.getElementById("p1NameSubmit").addEventListener("click", function () {
+    var name = document.getElementById("p1Name").value;
     player1.addName(name);
-    $("#p1NameOutput").text(player1.name);
-    $(".nameEntry1").hide();
-    $(".nameEntry2").show();
-    $("#player2Working").addClass("currentPlayer");
-    $("#player1Working").removeClass("currentPlayer");
+    document.getElementById("p1NameOutput").textContent = player1.name;
+    document.querySelector(".nameEntry1").style.display = "none";
+    document.querySelector(".nameEntry2").style.display = "block";
+    document.getElementById("player2Working").classList.add("currentPlayer");
+    document.getElementById("player1Working").classList.remove("currentPlayer");
   });
 
-  $("#p2NameSubmit").click(function(){
-    var name = $("#p2Name").val();
+  document.getElementById("p2NameSubmit").addEventListener("click", function () {
+    var name = document.getElementById("p2Name").value;
     player2.addName(name);
-    $("#p2NameOutput").text(player2.name);
-    $(".nameEntry2").hide();
-    $("#player1Working").addClass("currentPlayer");
-    $("#player2Working").removeClass("currentPlayer");
-    $("#rollButton").show();
-    $("#bankButton").show();
+    document.getElementById("p2NameOutput").textContent = player2.name;
+    document.querySelector(".nameEntry2").style.display = "none";
+    document.getElementById("player1Working").classList.add("currentPlayer");
+    document.getElementById("player2Working").classList.remove("currentPlayer");
+    document.getElementById("rollButton").style.display = "block";
+    document.getElementById("bankButton").style.display = "block";
     game.currentPlayer = player1;
   });
-
 });
