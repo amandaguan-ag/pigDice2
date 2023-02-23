@@ -1,7 +1,7 @@
-var player1 = new Player("Player 1");
-var player2 = new Player("Player 2");
+let player1 = new Player("Player 1");
+let player2 = new Player("Player 2");
 
-var game = new Game();
+let game = new Game();
 
 function Game() {
   this.gameType = 1;
@@ -24,15 +24,14 @@ Player.prototype.addToBank = function () {
 Player.prototype.addName = function (name) {
   this.name = name;
 };
-戳动d:
-Game.prototype.setGameType = function (type, players) {
+戳动d: Game.prototype.setGameType = function (type, players) {
   this.gameType = type;
   this.players = players;
 };
 
 Game.prototype.rollDice = function () {
   this.currentRoll = [];
-  for (var i = 0; i < this.gameType; i++) {
+  for (let i = 0; i < this.gameType; i++) {
     this.currentRoll.push(Math.floor(Math.random() * 6 + 1));
   }
 
@@ -85,8 +84,8 @@ Game.prototype.switchPlayer = function () {
   }
 };
 
-var computer = function () {
-  var firstRoll = game.rollDice();
+let computer = function () {
+  let firstRoll = game.rollDice();
   displayRoll(game.currentRoll);
   updateFields();
 
@@ -104,13 +103,13 @@ var computer = function () {
   window.setTimeout(enablePlayButtons, 3000);
 };
 
-var slowRoll = function (firstRoll) {
+let slowRoll = function (firstRoll) {
   debugger;
 };
 
-var superComputer = function () {
-  var firstRoll = 1;
-  for (var i = 0; player2.bank + game.turnTotal < 10; i++) {
+let superComputer = function () {
+  let firstRoll = 1;
+  for (let i = 0; player2.bank + game.turnTotal < 10; i++) {
     // debugger;
     if (firstRoll === 1) {
       if (player1.bank >= 71 || player2.bank >= 71) {
@@ -169,7 +168,8 @@ const activePlayerUI = function () {
     document.getElementById("player2Working").classList.add("currentPlayer");
     document.getElementById("player1Working").classList.remove("currentPlayer");
   }
-  document.getElementById("currentPlayer").textContent = game.currentPlayer.name;
+  document.getElementById("currentPlayer").textContent =
+    game.currentPlayer.name;
 };
 
 const updateBank = function () {
@@ -188,7 +188,8 @@ const updateFields = function () {
   document.getElementById("p1BankTotal").textContent = player1.bank;
   document.getElementById("p2BankTotal").textContent = player2.bank;
   document.getElementById("turnTotal").textContent = game.turnTotal;
-  document.getElementById("currentPlayer").textContent = game.currentPlayer.name;
+  document.getElementById("currentPlayer").textContent =
+    game.currentPlayer.name;
 };
 
 const clearFields = function () {
@@ -221,10 +222,9 @@ const enablePlayButtons = function () {
   document.getElementById("bankButton").style.display = "block";
 };
 
-
 window.addEventListener("load", function () {
   document.getElementById("gameType").addEventListener("change", function () {
-    var diceNumber = document.getElementById("gameType").value;
+    let diceNumber = document.getElementById("gameType").value;
     if (diceNumber === "1") {
       document.getElementById("twoDice").style.display = "none";
       document.getElementById("oneDie").style.display = "block";
@@ -245,8 +245,8 @@ window.addEventListener("load", function () {
     document.getElementById("winner").style.display = "none";
     document.getElementById("p1NameOutput").textContent = "Player 1";
     document.getElementById("p2NameOutput").textContent = "Player 2";
-    var type = document.getElementById("gameType").value;
-    var players = document.getElementById("playerCount").value;
+    let type = document.getElementById("gameType").value;
+    let players = document.getElementById("playerCount").value;
     game.setGameType(type, players);
     activePlayerUI();
   });
@@ -265,28 +265,37 @@ window.addEventListener("load", function () {
     activePlayerUI();
     document.getElementById("rollOutput").textContent = "";
     document.getElementById("turnTotal").textContent = "";
-    document.getElementById("currentPlayer").textContent = game.currentPlayer.name;
+    document.getElementById("currentPlayer").textContent =
+      game.currentPlayer.name;
   });
 
-  document.getElementById("p1NameSubmit").addEventListener("click", function () {
-    var name = document.getElementById("p1Name").value;
-    player1.addName(name);
-    document.getElementById("p1NameOutput").textContent = player1.name;
-    document.querySelector(".nameEntry1").style.display = "none";
-    document.querySelector(".nameEntry2").style.display = "block";
-    document.getElementById("player2Working").classList.add("currentPlayer");
-    document.getElementById("player1Working").classList.remove("currentPlayer");
-  });
+  document
+    .getElementById("p1NameSubmit")
+    .addEventListener("click", function () {
+      let name = document.getElementById("p1Name").value;
+      player1.addName(name);
+      document.getElementById("p1NameOutput").textContent = player1.name;
+      document.querySelector(".nameEntry1").style.display = "none";
+      document.querySelector(".nameEntry2").style.display = "block";
+      document.getElementById("player2Working").classList.add("currentPlayer");
+      document
+        .getElementById("player1Working")
+        .classList.remove("currentPlayer");
+    });
 
-  document.getElementById("p2NameSubmit").addEventListener("click", function () {
-    var name = document.getElementById("p2Name").value;
-    player2.addName(name);
-    document.getElementById("p2NameOutput").textContent = player2.name;
-    document.querySelector(".nameEntry2").style.display = "none";
-    document.getElementById("player1Working").classList.add("currentPlayer");
-    document.getElementById("player2Working").classList.remove("currentPlayer");
-    document.getElementById("rollButton").style.display = "block";
-    document.getElementById("bankButton").style.display = "block";
-    game.currentPlayer = player1;
-  });
+  document
+    .getElementById("p2NameSubmit")
+    .addEventListener("click", function () {
+      let name = document.getElementById("p2Name").value;
+      player2.addName(name);
+      document.getElementById("p2NameOutput").textContent = player2.name;
+      document.querySelector(".nameEntry2").style.display = "none";
+      document.getElementById("player1Working").classList.add("currentPlayer");
+      document
+        .getElementById("player2Working")
+        .classList.remove("currentPlayer");
+      document.getElementById("rollButton").style.display = "block";
+      document.getElementById("bankButton").style.display = "block";
+      game.currentPlayer = player1;
+    });
 });
