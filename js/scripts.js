@@ -1,8 +1,4 @@
-let player1 = new Player("Player 1");
-let player2 = new Player("Player 2");
-
-let game = new Game();
-
+//Business logic for Game
 function Game() {
   this.gameType = 1;
   this.players = 1;
@@ -11,20 +7,7 @@ function Game() {
   this.turnTotal = 0;
 }
 
-function Player(name) {
-  this.bank = 0;
-  this.name = name;
-}
-
-Player.prototype.addToBank = function () {
-  this.bank += game.turnTotal;
-  game.turnTotal = 0;
-};
-
-Player.prototype.addName = function (name) {
-  this.name = name;
-};
-戳动d: Game.prototype.setGameType = function (type, players) {
+Game.prototype.setGameType = function (type, players) {
   this.gameType = type;
   this.players = players;
 };
@@ -84,11 +67,31 @@ Game.prototype.switchPlayer = function () {
   }
 };
 
+//Business logic for Player
+function Player(name) {
+  this.bank = 0;
+  this.name = name;
+}
+
+Player.prototype.addToBank = function () {
+  this.bank += game.turnTotal;
+  game.turnTotal = 0;
+};
+
+Player.prototype.addName = function (name) {
+  this.name = name;
+};
+
+// UI
+let game = new Game();
+let player1 = new Player("Player 1");
+let player2 = new Player("Player 2");
+
 let computer = function () {
   let firstRoll = game.rollDice();
   displayRoll(game.currentRoll);
   updateFields();
-
+  
   if (firstRoll === 1) {
     firstRoll = game.rollDice();
     window.setTimeout(displayRoll, 1000, game.currentRoll);
@@ -159,7 +162,6 @@ let superComputer = function () {
   enablePlayButtons();
 };
 
-/// UI
 const activePlayerUI = function () {
   if (game.currentPlayer.name === player1.name) {
     document.getElementById("player1Working").classList.add("currentPlayer");
@@ -170,7 +172,7 @@ const activePlayerUI = function () {
   }
   document.getElementById("currentPlayer").textContent =
     game.currentPlayer.name;
-};
+  };
 
 const updateBank = function () {
   document.getElementById("p1BankTotal").textContent = player1.bank;
