@@ -1,3 +1,8 @@
+let player1 = new Player("Player 1");
+let player2 = new Player("Player 2");
+
+let game = new Game();
+
 //Business logic for Game
 function Game() {
   this.gameType = 1;
@@ -82,11 +87,6 @@ Player.prototype.addName = function (name) {
   this.name = name;
 };
 
-// UI
-let game = new Game();
-let player1 = new Player("Player 1");
-let player2 = new Player("Player 2");
-
 let computer = function () {
   let firstRoll = game.rollDice();
   displayRoll(game.currentRoll);
@@ -162,6 +162,7 @@ let superComputer = function () {
   enablePlayButtons();
 };
 
+// UI logic
 const activePlayerUI = function () {
   if (game.currentPlayer.name === player1.name) {
     document.getElementById("player1Working").classList.add("currentPlayer");
@@ -172,7 +173,7 @@ const activePlayerUI = function () {
   }
   document.getElementById("currentPlayer").textContent =
     game.currentPlayer.name;
-  };
+};
 
 const updateBank = function () {
   document.getElementById("p1BankTotal").textContent = player1.bank;
